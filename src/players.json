@@ -15,6 +15,14 @@
       "favoriteGame": "Super-Smash-Bros",
       "skillLevel": "Advanced",
       "points": 0
+    },
+    {
+      "id": "4280",
+      "avatar": "/src/assets/img/woman.png",
+      "name": "Isabella",
+      "favoriteGame": "Fortnite",
+      "skillLevel": "Beginner",
+      "points": 0
     }
   ]
 }
