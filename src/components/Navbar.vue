@@ -36,9 +36,11 @@ const isActiveLink = (routePath) => {
                 >Leaderboard</RouterLink
               >
               <RouterLink
-                to="/jobs"
+                to="/player-list"
                 :class="[
-                  isActiveLink('/jobs') ? 'bg-ivory-200' : 'hover:bg-ivory-200',
+                  isActiveLink('/player-list')
+                    ? 'bg-ivory-200'
+                    : 'hover:bg-ivory-200',
                   'text-charcoal',
                   'rounded-md',
                   'px-3',

@@ -3,7 +3,7 @@
     {
       "id": "5eaf",
       "avatar": "/src/assets/img/default.png",
-      "playerName": "Roy",
+      "name": "Roy",
       "favoriteGame": "Fortnite",
       "skillLevel": "Intermediate",
       "points": 0
@@ -11,7 +11,7 @@
     {
       "id": "1cbf",
       "avatar": "/src/assets/img/boy.png",
-      "playerName": "Thami",
+      "name": "Thami",
       "favoriteGame": "Super-Smash-Bros",
       "skillLevel": "Advanced",
       "points": 0

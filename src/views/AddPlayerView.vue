@@ -5,18 +5,18 @@ import axios from "axios";
 import { playerImages } from "../data/playerImages.js";
 
 let avatar = ref("/src/assets/img/default.png");
-const playerName = ref("");
+const name = ref("");
 const favoriteGame = ref("Mario-Kart");
 const skillLevel = ref("Beginner");
 
 const toast = useToast();
 
 const handleSubmit = async () => {
-  if (!playerName) return;
+  if (!name) return;
 
   const newPlayer = {
     avatar: avatar,
-    playerName: playerName.value,
+    name: name.value,
     favoriteGame: favoriteGame.value,
     skillLevel: skillLevel.value,
     points: 0,
@@ -32,7 +32,7 @@ const handleSubmit = async () => {
 };
 
 // Watch for changes in inputName
-watch(playerName, (newValue) => {
+watch(name, (newValue) => {
   console.log("test", newValue);
   // Reset currentImageUrl
   avatar = null;
@@ -71,10 +71,10 @@ watch(playerName, (newValue) => {
               >Player name</label
             >
             <input
-              v-model="playerName"
+              v-model="name"
               type="text"
-              id="playerName"
-              name="playerName"
+              id="name"
+              name="name"
               class="border border-ivory-300 rounded w-full py-2 px-3 mb-2"
               placeholder="Fill in your player name.."
               required
