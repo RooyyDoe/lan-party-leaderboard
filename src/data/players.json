@@ -1,11 +1,20 @@
 {
   "players": [
     {
-      "id": "c8a7",
-      "avatar": "",
-      "playerName": "Roy Kuijper",
+      "id": "5eaf",
+      "avatar": "/src/assets/img/default.png",
+      "playerName": "Roy",
       "favoriteGame": "Fortnite",
-      "skillLevel": "Intermediate"
+      "skillLevel": "Intermediate",
+      "points": 0
+    },
+    {
+      "id": "1cbf",
+      "avatar": "/src/assets/img/boy.png",
+      "playerName": "Thami",
+      "favoriteGame": "Super-Smash-Bros",
+      "skillLevel": "Advanced",
+      "points": 0
     }
   ]
 }

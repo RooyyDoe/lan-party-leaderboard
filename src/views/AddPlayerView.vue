@@ -1,23 +1,25 @@
 <script setup>
-import { reactive } from "vue";
+import { watch, ref } from "vue";
 import { useToast } from "vue-toastification";
 import axios from "axios";
+import { playerImages } from "../data/playerImages.js";
 
-const form = reactive({
-  avatar: "",
-  playerName: "",
-  favoriteGame: "Mario-Kart",
-  skillLevel: "Beginner",
-});
+let avatar = ref("/src/assets/img/default.png");
+const playerName = ref("");
+const favoriteGame = ref("Mario-Kart");
+const skillLevel = ref("Beginner");
 
 const toast = useToast();
 
 const handleSubmit = async () => {
+  if (!playerName) return;
+
   const newPlayer = {
-    avatar: form.avatar,
-    playerName: form.playerName,
-    favoriteGame: form.favoriteGame,
-    skillLevel: form.skillLevel,
+    avatar: avatar,
+    playerName: playerName.value,
+    favoriteGame: favoriteGame.value,
+    skillLevel: skillLevel.value,
+    points: 0,
   };
 
   try {
@@ -28,10 +30,27 @@ const handleSubmit = async () => {
     toast.error("Player was not added", error);
   }
 };
+
+// Watch for changes in inputName
+watch(playerName, (newValue) => {
+  console.log("test", newValue);
+  // Reset currentImageUrl
+  avatar = null;
+
+  // Check if the input name matches any name in the object
+  for (const item of playerImages) {
+    if (item.name.includes(newValue.toLowerCase())) {
+      avatar = item.imageUrl;
+      break;
+    } else {
+      avatar = "/src/assets/img/default.png";
+    }
+  }
+});
 </script>
 
 <template>
-  <section class="bg-ivory-200">
+  <section class="bg-ivory-200 h-screen">
     <div class="container m-auto max-w-2xl py-24">
       <div
         class="bg-white px-6 py-8 mb-4 shadow-md rounded-md border m-4 md:m-0"
@@ -41,8 +60,8 @@ const handleSubmit = async () => {
             <h2 class="text-3xl font-semibold">Add player</h2>
 
             <img
-              class="rounded w-40"
-              src="../assets/img/boy.png"
+              class="transition-all rounded w-40 h-40"
+              :src="avatar"
               alt="Extra large avatar"
             />
           </div>
@@ -52,7 +71,7 @@ const handleSubmit = async () => {
               >Player name</label
             >
             <input
-              v-model="form.playerName"
+              v-model="playerName"
               type="text"
               id="playerName"
               name="playerName"
@@ -67,7 +86,7 @@ const handleSubmit = async () => {
                 >Favorite game</label
               >
               <select
-                v-model="form.favoriteGame"
+                v-model="favoriteGame"
                 id="favoriteGame"
                 name="favoriteGame"
                 class="border rounded w-full py-2 px-3"
@@ -85,7 +104,7 @@ const handleSubmit = async () => {
                 >Skill Level</label
               >
               <select
-                v-model="form.skillLevel"
+                v-model="skillLevel"
                 id="skillLevel"
                 name="skillLevel"
                 class="border rounded w-full py-2 px-3"
