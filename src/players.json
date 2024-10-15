@@ -1,26 +1,10 @@
 {
   "players": [
     {
-      "id": "5eaf",
+      "id": "c17f",
       "avatar": "/src/assets/img/default.png",
       "name": "Roy",
-      "favoriteGame": "Fortnite",
-      "skillLevel": "Intermediate",
-      "points": 0
-    },
-    {
-      "id": "1cbf",
-      "avatar": "/src/assets/img/boy.png",
-      "name": "Thami",
-      "favoriteGame": "Super-Smash-Bros",
-      "skillLevel": "Advanced",
-      "points": 0
-    },
-    {
-      "id": "4280",
-      "avatar": "/src/assets/img/woman.png",
-      "name": "Isabella",
-      "favoriteGame": "Fortnite",
+      "favoriteGame": "Mario Kart",
       "skillLevel": "Beginner",
       "points": 0
     }

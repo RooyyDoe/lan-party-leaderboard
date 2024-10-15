@@ -1,9 +1,13 @@
 <script setup>
-import { RouterLink } from "vue-router";
-
 const props = defineProps({
   player: Object,
 });
+
+const emit = defineEmits(["handle:delete", "handle:edit"]);
+
+const editPlayer = () => {
+  emit("handle:edit");
+};
 </script>
 
 <template>
@@ -19,11 +23,14 @@ const props = defineProps({
       <h5 class="mb-1 text-xl font-medium text-gray-900">
         {{ player.name }}
       </h5>
-      <span class="text-sm text-gray-500">Visual Designer</span>
+      <span class="text-sm text-gray-500"
+        >{{ player.favoriteGame }} | {{ player.skillLevel }}</span
+      >
       <div class="flex mt-4 md:mt-6">
         <button
           type="button"
-          class="inline-flex items-center gap-1 py-2 px-4 ms-2 text-sm font-medium text-center rounded-lg bg-ivory-300 hover:bg-ivory-400 text-charcoal focus:ring-4 focus:outline-none focus:ring-blue-300"
+          class="inline-flex items-center gap-1 py-2 px-4 ms-2 text-sm font-medium text-center rounded-lg bg-ivory-300 hover:bg-ivory-400 text-charcoal focus:outline-none"
+          @click="editPlayer"
         >
           <svg
             class="w-6 h-6 text-gray-800 dark:text-white"
@@ -46,7 +53,8 @@ const props = defineProps({
         </button>
         <button
           type="button"
-          class="inline-flex items-center gap-1 py-2 px-4 ms-2 text-sm font-medium text-white focus:outline-none bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 rounded-lg dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+          class="inline-flex focus:outline-none items-center gap-1 py-2 px-4 ms-2 text-sm font-medium text-white bg-red-700 hover:bg-red-800 rounded-lg dark:bg-red-600 dark:hover:bg-red-700"
+          @click="emit('handle:delete', player)"
         >
           <svg
             class="w-6 h-6 text-white dark:text-white"

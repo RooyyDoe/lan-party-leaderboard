@@ -1,14 +1,20 @@
 <script setup>
 import { onMounted, ref } from "vue";
 import PulseLoader from "vue-spinner/src/PulseLoader.vue";
+import { useToast } from "vue-toastification";
 import axios from "axios";
-
 import PlayerCard from "@/components/Playercard.vue";
+import EditPlayerModal from "./modals/editPlayerModal.vue";
+
+const toast = useToast();
 
 const players = ref([]);
 const isLoading = ref(true);
 
-onMounted(async () => {
+const isEditModalOpen = ref(false);
+const selectedPlayer = ref(null);
+
+const fetchPlayers = async () => {
   try {
     const response = await axios.get("/api/players");
     players.value = response.data;
@@ -17,7 +23,35 @@ onMounted(async () => {
   } finally {
     isLoading.value = false;
   }
-});
+};
+
+const handleDelete = async (player) => {
+  try {
+    const confirm = window.confirm(
+      `Are you sure you want to delete ${player.name}?`
+    );
+    if (!confirm) {
+      return;
+    }
+    await axios.delete(`/api/players/${player.id}`);
+    toast.success(`${player.name} Has Been Successfully deleted`);
+    fetchPlayers();
+  } catch (error) {
+    toast.error(`${player.name} has not been deleted`, error);
+  }
+};
+
+const openEditModal = (player) => {
+  selectedPlayer.value = player;
+  isEditModalOpen.value = true;
+};
+
+const closeEditModal = () => {
+  isEditModalOpen.value = false;
+  selectedPlayer.value = null;
+};
+
+onMounted(fetchPlayers);
 </script>
 
 <template>
@@ -36,8 +70,15 @@ onMounted(async () => {
           v-for="player in players"
           :key="player.id"
           :player="player"
+          @handle:delete="handleDelete"
+          @handle:edit="openEditModal(player)"
         />
       </div>
     </div>
+    <EditPlayerModal
+      v-if="isEditModalOpen"
+      :player="selectedPlayer"
+      @handle:close="closeEditModal"
+    />
   </section>
 </template>

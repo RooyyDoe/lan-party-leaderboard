@@ -1,23 +1,22 @@
 <script setup>
-import { watch, ref } from "vue";
-import { useToast } from "vue-toastification";
+import { ref } from "vue";
 import axios from "axios";
-import { playerImages } from "../data/playerImages.js";
-import { useRouter } from "vue-router";
+import { useToast } from "vue-toastification";
 
-let avatar = ref("/src/assets/img/default.png");
+const toast = useToast();
+
+const props = defineProps({
+  player: Object,
+});
+
+const emit = defineEmits(["handle:close", "handle:submit"]);
+
 const name = ref("");
 const favoriteGame = ref("Mario Kart");
 const skillLevel = ref("Beginner");
 
-const toast = useToast();
-const router = useRouter();
-
 const handleSubmit = async () => {
-  if (!name) return;
-
-  const newPlayer = {
-    avatar: avatar,
+  const updatePlayer = {
     name: name.value,
     favoriteGame: favoriteGame.value,
     skillLevel: skillLevel.value,
@@ -25,46 +24,62 @@ const handleSubmit = async () => {
   };
 
   try {
-    await axios.post("/api/players", newPlayer);
-    toast.success("Player Added Successfully");
-    router.push("/player-list");
+    await axios.put(`/api/players/${props.player.id}`, updatePlayer);
+    toast.success("player Updated Successfully");
+    emit("handle:submit");
   } catch (error) {
-    console.error("Error creating job", error);
-    toast.error("Player was not added", error);
+    console.error("Error updating player", error);
+    toast.error("player was not updated", error);
   }
 };
-
-// Watch for changes in inputName
-watch(name, (newValue) => {
-  console.log("test", newValue);
-  // Reset currentImageUrl
-  avatar = null;
-
-  // Check if the input name matches any name in the object
-  for (const item of playerImages) {
-    if (item.name.includes(newValue.toLowerCase())) {
-      avatar = item.imageUrl;
-      break;
-    } else {
-      avatar = "/src/assets/img/default.png";
-    }
-  }
-});
 </script>
 
 <template>
-  <section class="bg-ivory-200 h-screen">
-    <div class="container m-auto max-w-2xl py-24">
-      <div
-        class="bg-white px-6 py-8 mb-4 shadow-md rounded-md border m-4 md:m-0"
-      >
-        <form @submit.prevent="handleSubmit">
+  <div
+    id="crud-modal"
+    tabindex="-1"
+    aria-hidden="true"
+    class="fixed inset-0 z-50 flex items-center justify-center w-full h-full bg-black bg-opacity-50"
+  >
+    <div class="relative p-4 w-full max-w-md">
+      <!-- Modal content -->
+      <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+        <!-- Modal header -->
+        <div
+          class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600"
+        >
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+            Edit player
+          </h3>
+          <button
+            type="button"
+            class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+            @click="emit('handle:close')"
+          >
+            <svg
+              class="w-3 h-3"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 14 14"
+            >
+              <path
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+              />
+            </svg>
+            <span class="sr-only">Close modal</span>
+          </button>
+        </div>
+        <!-- Modal body -->
+        <form @submit.prevent="handleSubmit" class="p-5">
           <div class="flex flex-col gap-5 items-center mb-6">
-            <h2 class="text-3xl font-semibold">Add player</h2>
-
             <img
               class="transition-all rounded w-40 h-40"
-              :src="avatar"
+              :src="player.avatar"
               alt="Extra large avatar"
             />
           </div>
@@ -74,7 +89,7 @@ watch(name, (newValue) => {
               >Player name</label
             >
             <input
-              v-model="name"
+              v-model="player.name"
               type="text"
               id="name"
               name="name"
@@ -89,7 +104,7 @@ watch(name, (newValue) => {
                 >Favorite game</label
               >
               <select
-                v-model="favoriteGame"
+                v-model="player.favoriteGame"
                 id="favoriteGame"
                 name="favoriteGame"
                 class="border rounded w-full py-2 px-3"
@@ -107,7 +122,7 @@ watch(name, (newValue) => {
                 >Skill Level</label
               >
               <select
-                v-model="skillLevel"
+                v-model="player.skillLevel"
                 id="skillLevel"
                 name="skillLevel"
                 class="border rounded w-full py-2 px-3"
@@ -125,11 +140,11 @@ watch(name, (newValue) => {
               class="bg-ivory-300 hover:bg-ivory-400 text-charcoal font-bold py-2 px-4 rounded-full w-full focus:outline-none focus:shadow-outline"
               type="submit"
             >
-              Add Player
+              Confirm changes
             </button>
           </div>
         </form>
       </div>
     </div>
-  </section>
+  </div>
 </template>
