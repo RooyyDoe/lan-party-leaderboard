@@ -49,13 +49,14 @@ const openEditModal = (player) => {
 const closeEditModal = () => {
   isEditModalOpen.value = false;
   selectedPlayer.value = null;
+  fetchPlayers();
 };
 
 onMounted(fetchPlayers);
 </script>
 
 <template>
-  <section class="bg-ivory-200 h-screen px-4 py-10">
+  <section class="bg-ivory-200 h-screen px-4 py-10 overflow-auto">
     <div class="container-xl lg:container m-auto">
       <h2 class="text-3xl font-bold text-charcoal mb-6 text-center">
         Browse Players
@@ -65,7 +66,10 @@ onMounted(fetchPlayers);
         <PulseLoader color="#333333" />
       </div>
       <!-- Show player cards when done loading -->
-      <div v-else class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div
+        v-else
+        class="grid grid-cols-1 place-items-center md:grid-cols-3 gap-6"
+      >
         <PlayerCard
           v-for="player in players"
           :key="player.id"
@@ -79,6 +83,7 @@ onMounted(fetchPlayers);
       v-if="isEditModalOpen"
       :player="selectedPlayer"
       @handle:close="closeEditModal"
+      @handle:submit="closeEditModal"
     />
   </section>
 </template>

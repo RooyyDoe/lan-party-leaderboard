@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import axios from "axios";
 import { useToast } from "vue-toastification";
 
@@ -11,20 +11,17 @@ const props = defineProps({
 
 const emit = defineEmits(["handle:close", "handle:submit"]);
 
-const name = ref("");
-const favoriteGame = ref("Mario Kart");
-const skillLevel = ref("Beginner");
+const editedPlayer = ref({ ...props.player });
 
 const handleSubmit = async () => {
   const updatePlayer = {
-    name: name.value,
-    favoriteGame: favoriteGame.value,
-    skillLevel: skillLevel.value,
-    points: 0,
+    name: editedPlayer.value.name,
+    favoriteGame: editedPlayer.value.favoriteGame,
+    skillLevel: editedPlayer.value.skillLevel,
   };
 
   try {
-    await axios.put(`/api/players/${props.player.id}`, updatePlayer);
+    await axios.patch(`/api/players/${props.player.id}`, updatePlayer);
     toast.success("player Updated Successfully");
     emit("handle:submit");
   } catch (error) {
@@ -32,6 +29,13 @@ const handleSubmit = async () => {
     toast.error("player was not updated", error);
   }
 };
+
+watch(
+  () => props.player,
+  (newPlayer) => {
+    editedPlayer.value = { ...newPlayer };
+  }
+);
 </script>
 
 <template>
@@ -79,7 +83,7 @@ const handleSubmit = async () => {
           <div class="flex flex-col gap-5 items-center mb-6">
             <img
               class="transition-all rounded w-40 h-40"
-              :src="player.avatar"
+              :src="editedPlayer.avatar"
               alt="Extra large avatar"
             />
           </div>
@@ -89,7 +93,7 @@ const handleSubmit = async () => {
               >Player name</label
             >
             <input
-              v-model="player.name"
+              v-model="editedPlayer.name"
               type="text"
               id="name"
               name="name"
@@ -104,7 +108,7 @@ const handleSubmit = async () => {
                 >Favorite game</label
               >
               <select
-                v-model="player.favoriteGame"
+                v-model="editedPlayer.favoriteGame"
                 id="favoriteGame"
                 name="favoriteGame"
                 class="border rounded w-full py-2 px-3"
@@ -122,7 +126,7 @@ const handleSubmit = async () => {
                 >Skill Level</label
               >
               <select
-                v-model="player.skillLevel"
+                v-model="editedPlayer.skillLevel"
                 id="skillLevel"
                 name="skillLevel"
                 class="border rounded w-full py-2 px-3"

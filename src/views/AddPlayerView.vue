@@ -36,7 +36,6 @@ const handleSubmit = async () => {
 
 // Watch for changes in inputName
 watch(name, (newValue) => {
-  console.log("test", newValue);
   // Reset currentImageUrl
   avatar = null;
 

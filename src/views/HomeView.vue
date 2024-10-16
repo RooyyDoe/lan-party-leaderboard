@@ -1,7 +1,7 @@
 <script setup>
-import PlayerCards from "@/components/PlayerCards.vue";
+import Leaderboard from "@/components/Leaderboard.vue";
 </script>
 
 <template>
-  <PlayerCards :show-button="true" />
+  <Leaderboard />
 </template>
