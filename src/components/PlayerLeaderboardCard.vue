@@ -1,8 +1,25 @@
 <script setup>
+import { ref, defineModel, watch } from "vue";
+
 const props = defineProps({
   player: Object,
   position: Number,
 });
+
+const emit = defineEmits(["handle:new-score"]);
+
+const newPoints = ref(0);
+
+const isEditing = defineModel({ required: true });
+
+watch(
+  () => isEditing.value,
+  (newValue) => {
+    if (newValue) {
+      newPoints.value = 0; // Reset input to current player points
+    }
+  }
+);
 </script>
 
 <template>
@@ -20,8 +37,23 @@ const props = defineProps({
         {{ player.name }}
       </div>
     </div>
-    <div class="flex gap-4">
-      <div>{{ player.points }}</div>
+    <!-- Toggle between showing score and editing score -->
+    <div class="text-right">
+      <div v-if="isEditing" class="flex items-center">
+        <span class="text-xl text-charcoal mr-2">{{ player.points }} +</span>
+        <input
+          v-model="newPoints"
+          type="number"
+          min="0"
+          class="w-16 text-center border-2 border-ivory-500 rounded text-charcoal font-bold"
+          @blur="emit('handle:new-score', newPoints)"
+        />
+      </div>
+      <div v-else>
+        <span class="text-xl font-bold">
+          {{ player.points }}
+        </span>
+      </div>
     </div>
   </div>
 </template>

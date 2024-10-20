@@ -6,7 +6,7 @@
       "name": "Roy",
       "favoriteGame": "Fortnite",
       "skillLevel": "Casual",
-      "points": 0
+      "points": 57
     },
     {
       "id": "bb73",
@@ -14,7 +14,7 @@
       "name": "Tim",
       "favoriteGame": "Fortnite",
       "skillLevel": "Intermediate",
-      "points": 0
+      "points": 59
     },
     {
       "id": "178a",
@@ -22,7 +22,7 @@
       "name": "Nickey",
       "favoriteGame": "Mario Kart",
       "skillLevel": "Advanced",
-      "points": 0
+      "points": 35
     },
     {
       "id": "64d3",
@@ -30,7 +30,7 @@
       "name": "Youri",
       "favoriteGame": "Fortnite",
       "skillLevel": "Intermediate",
-      "points": 0
+      "points": 64
     },
     {
       "id": "9a22",
@@ -38,7 +38,7 @@
       "name": "Lisa",
       "favoriteGame": "Fall Guys",
       "skillLevel": "Casual",
-      "points": 0
+      "points": 37
     },
     {
       "id": "6a27",
@@ -46,7 +46,7 @@
       "name": "Willem",
       "favoriteGame": "Fall Guys",
       "skillLevel": "Intermediate",
-      "points": 0
+      "points": 53
     },
     {
       "id": "7870",
@@ -54,7 +54,15 @@
       "name": "Iris",
       "favoriteGame": "Chained Together",
       "skillLevel": "Advanced",
-      "points": 0
+      "points": 46
+    },
+    {
+      "id": "99ae",
+      "avatar": "/src/assets/img/boy.png",
+      "name": "Thami",
+      "favoriteGame": "Fortnite",
+      "skillLevel": "Beginner",
+      "points": 50
     }
   ]
 }
