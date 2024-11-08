@@ -56,7 +56,7 @@ onMounted(fetchPlayers);
 </script>
 
 <template>
-  <section class="bg-ivory-200 h-screen px-4 py-10 overflow-auto">
+  <section class="h-screen px-4 py-10 overflow-auto">
     <div class="container-xl lg:container m-auto">
       <h2 class="text-3xl font-bold text-charcoal mb-6 text-center">
         Browse Players

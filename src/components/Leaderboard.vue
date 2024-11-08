@@ -20,7 +20,6 @@ const fetchPlayers = async () => {
   }
 };
 
-// Function to save all updated scores after patch requests
 const saveAllScores = async () => {
   try {
     const updatePromises = newPlayerPoints.value.map((player) =>
@@ -36,16 +35,13 @@ const saveAllScores = async () => {
 };
 
 const handlenewPlayerPointsObject = (newPoints, playerId) => {
-  // Find the index of the player in the array by their ID
   const playerIndex = newPlayerPoints.value.findIndex(
     (player) => player.id === playerId
   );
 
   if (playerIndex !== -1) {
-    // If the player is found, update the points
     newPlayerPoints.value[playerIndex].points = newPoints;
   } else {
-    // If the player is not found, push a new object into the array
     newPlayerPoints.value.push({
       id: playerId,
       points: newPoints,
@@ -53,17 +49,29 @@ const handlenewPlayerPointsObject = (newPoints, playerId) => {
   }
 };
 
-// Computed property to sort players by score
 const sortedPlayers = computed(() => {
   return players.value.sort((a, b) => b.points - a.points);
 });
+
+const topThreePlayers = computed(() => {
+  const topThree = sortedPlayers.value.slice(0, 3);
+  if (topThree.length === 3) {
+    return [
+      { ...topThree[1], displayPosition: 2 },
+      { ...topThree[0], displayPosition: 1 },
+      { ...topThree[2], displayPosition: 3 },
+    ];
+  }
+  return topThree;
+});
+const remainingPlayers = computed(() => sortedPlayers.value.slice(3));
 
 onMounted(fetchPlayers);
 </script>
 
 <template>
-  <div class="flex items-center justify-center h-screen bg-ivory-200">
-    <div class="container-xl lg:container m-auto">
+  <div class="flex items-center justify-center h-screen">
+    <div class="m-auto">
       <button
         @click="isEditing = !isEditing"
         class="absolute top-5 left-1/2 transform -translate-x-1/2 px-3 py-2 text-charcoal rounded-lg hover:bg-ivory-200 focus:outline-none"
@@ -71,20 +79,48 @@ onMounted(fetchPlayers);
       >
         Update scores
       </button>
+
+      <!-- Top Three Section -->
+      <transition-group
+        name="top-three"
+        tag="div"
+        class="hidden md:grid grid-cols-3 gap-1 justify-end items-end"
+      >
+        <div
+          v-for="(player, index) in topThreePlayers"
+          :key="player.id"
+          class="top-three-card"
+        >
+          <PlayerLeaderboardCard
+            v-model="isEditing"
+            :player="player"
+            :position="player.displayPosition"
+            :is-top-player="true"
+            @update:model-value="isEditing"
+            @handle:new-score="
+              (points) =>
+                handlenewPlayerPointsObject(points + player.points, player.id)
+            "
+          />
+        </div>
+      </transition-group>
+
+      <!-- Remaining Players Section -->
       <transition-group
         name="leaderboard"
         tag="ul"
-        class="flex flex-col items-center"
+        class="flex flex-col items-center mt-10"
       >
         <li
-          v-for="(player, index) in sortedPlayers"
+          v-for="(player, index) in remainingPlayers"
           :key="player.id"
           class="mb-4"
         >
           <PlayerLeaderboardCard
             v-model="isEditing"
             :player="player"
-            :position="index + 1"
+            :position="index + 4"
+            :is-top-player="false"
             @update:model-value="isEditing"
             @handle:new-score="
               (points) =>
@@ -93,7 +129,8 @@ onMounted(fetchPlayers);
           />
         </li>
       </transition-group>
-      <div v-if="isEditing" class="flex flex-col items-center">
+
+      <div v-if="isEditing" class="flex flex-col items-center mt-5">
         <button
           class="px-6 py-2 text-charcoal bg-white rounded-lg hover:bg-gray-50 focus:outline-none"
           @click="saveAllScores"
@@ -106,34 +143,37 @@ onMounted(fetchPlayers);
 </template>
 
 <style>
-/* Transition styles */
+/* Transition for the leaderboard items */
 .leaderboard-enter-active,
-.leaderboard-leave-active {
-  transition: all 0.5s ease;
+.top-three-enter-active {
+  transition: opacity 0.5s ease-in-out, transform 0.5s ease-in;
 }
 
-.leaderboard-enter-from {
+.leaderboard-leave-active,
+.top-three-leave-active {
+  transition: opacity 0.4s ease-in-out, transform 0.4s ease-out;
+}
+
+.leaderboard-enter-from,
+.top-three-enter-from {
   opacity: 0;
-  transform: translateY(30px);
+  transform: translateY(10px);
 }
 
-.leaderboard-leave-to {
+.leaderboard-leave-to,
+.top-three-leave-to {
   opacity: 0;
-  transform: translateY(-30px);
+  display: none;
+  transform: translateY(0px);
 }
 
-.leaderboard-move {
-  transform: translateY(0);
-  transition: all 0.5s 0.5s ease;
+.leaderboard-move,
+.top-three-move {
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Styling for leaderboard items */
-.player-item {
-  display: flex;
-  justify-content: space-between;
-  background-color: #f8f9fa;
-  padding: 10px;
-  border-radius: 8px;
-  margin-bottom: 5px;
+/* Styling for the top-three card with a smooth transition */
+.top-three-card {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 </style>
