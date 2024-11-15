@@ -62,7 +62,7 @@ watch(name, (newValue) => {
             <h2 class="text-3xl font-semibold">Add player</h2>
 
             <img
-              class="transition-all rounded w-40 h-40"
+              class="transition-all rounded-full w-40 h-40"
               :src="avatar"
               alt="Extra large avatar"
             />
@@ -77,7 +77,7 @@ watch(name, (newValue) => {
               type="text"
               id="name"
               name="name"
-              class="border border-ivory-300 rounded w-full py-2 px-3 mb-2"
+              class="border rounded w-full py-2 px-3 mb-2"
               placeholder="Fill in your player name.."
               required
             />
