@@ -70,15 +70,18 @@ onMounted(fetchPlayers);
 </script>
 
 <template>
-  <div class="flex items-center justify-center h-screen">
-    <div class="m-auto">
-      <button
-        @click="isEditing = !isEditing"
-        class="absolute top-5 left-1/2 transform -translate-x-1/2 px-3 py-2 text-charcoal rounded-lg hover:bg-ivory-200 focus:outline-none"
-        :class="isEditing ? 'bg-ivory-200' : 'bg-ivory-500'"
-      >
-        Update scores
-      </button>
+  <div class="flex items-center justify-center m-5">
+    <button
+    @click="isEditing = !isEditing"
+    class="absolute top-5 left-1/2 transform -translate-x-1/2 px-3 py-2 text-charcoal rounded-lg hover:bg-ivory-200 focus:outline-none"
+    :class="isEditing ? 'bg-ivory-200' : 'bg-ivory-500'"
+  >
+    Update scores
+  </button>
+    <div
+      class="m-auto relative overflow-y-auto h-[calc(100vh-100px)] p-5"
+    >
+
 
       <!-- Top Three Section -->
       <transition-group

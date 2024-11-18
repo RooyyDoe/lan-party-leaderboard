@@ -1,3 +1,84 @@
 {
-  "players": []
+  "players": [
+    {
+      "id": "6995",
+      "avatar": "/src/assets/img/Isa.jpg",
+      "name": "Isabella",
+      "favoriteGame": "Mario Kart",
+      "skillLevel": "Casual",
+      "points": 15
+    },
+    {
+      "id": "28d2",
+      "avatar": "/src/assets/img/Roy.jpg",
+      "name": "Roy",
+      "favoriteGame": "Fortnite",
+      "skillLevel": "Advanced",
+      "points": 15
+    },
+    {
+      "id": "fac8",
+      "avatar": "/src/assets/img/Youri.jpg",
+      "name": "youri",
+      "favoriteGame": "Chained Together",
+      "skillLevel": "Advanced",
+      "points": 21
+    },
+    {
+      "id": "48fb",
+      "avatar": "/src/assets/img/Nickey.jpg",
+      "name": "Nickey",
+      "favoriteGame": "Mario Kart",
+      "skillLevel": "Advanced",
+      "points": 16
+    },
+    {
+      "id": "a29f",
+      "avatar": "/src/assets/img/Willem.jpg",
+      "name": "willem",
+      "favoriteGame": "Fall Guys",
+      "skillLevel": "Advanced",
+      "points": 12
+    },
+    {
+      "id": "77e5",
+      "avatar": "/src/assets/img/Iris.jpg",
+      "name": "Iris",
+      "favoriteGame": "Mario Kart",
+      "skillLevel": "Casual",
+      "points": 8
+    },
+    {
+      "id": "654f",
+      "avatar": "/src/assets/img/Thami.jpg",
+      "name": "Thami",
+      "favoriteGame": "Fall Guys",
+      "skillLevel": "Intermediate",
+      "points": 16
+    },
+    {
+      "id": "864d",
+      "avatar": "/src/assets/img/Timothy.jpg",
+      "name": "Timothy",
+      "favoriteGame": "Mario Kart",
+      "skillLevel": "Advanced",
+      "points": 25
+    },
+    {
+      "id": "8502",
+      "avatar": "/src/assets/img/Lisa.jpg",
+      "name": "Lisa",
+      "favoriteGame": "Fortnite",
+      "skillLevel": "Advanced",
+      "points": 17
+    },
+    {
+      "id": "4b09",
+      "avatar": "/src/assets/img/Bailey.jpg",
+      "name": "Bailey",
+      "favoriteGame": "Super Smash Bros",
+      "skillLevel": "Intermediate",
+      "points": 27
+    }
+  ]
 }
